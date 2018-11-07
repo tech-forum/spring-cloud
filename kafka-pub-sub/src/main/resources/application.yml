@@ -1,13 +1,29 @@
+server.port: 8081
 spring:
+  kafka:
+    consumer:
+      properties:
+        isolation.level: read_committed
+        max.poll.records: 1
+        enable.auto.commit: false
+
   cloud:
     stream:
       kafka:
         binder:
           brokers: localhost:9092
+          reset-offsets: true
+          start-offset: latest
       bindings:
         techforum-in:
           destination: techforum-topic
           contentType: application/json
+          group: techforum-group-one
+          client: techforum-client-one
+          autoCommitOffset: false
         techforum-out:
           destination: techforum-topic
           contentType: application/json
+          group: techforum-group-one
+          client: techforum-client-one
+          autoCommitOffset: false

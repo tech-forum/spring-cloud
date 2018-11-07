@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,10 @@ public class MessageSubscriber {
     public void onMessage(Message message){
         byte[] payload = (byte[]) message.getPayload();
         LOG.info("inside subscriber :: payload : {}", new String(payload));
+        Acknowledgment acknowledgment = message.getHeaders().get(KafkaHeaders.ACKNOWLEDGMENT, Acknowledgment.class);
+        if(acknowledgment != null) {
+            acknowledgment.acknowledge();
+        }
         this.messageService.handleMessage();
     }
 }

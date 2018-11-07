@@ -8,6 +8,10 @@ spring:
         techforum-in:
           destination: techforum-topic
           contentType: application/json
+          group: techforum-group
+          client: techforum-client-one
         techforum-out:
           destination: techforum-topic
           contentType: application/json
+          group: techforum-group
+          client: techforum-client-one
